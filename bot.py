@@ -82,6 +82,7 @@ def welcome(message):
     # bot.send_sticker(message.chat.id, sti)
  
     # keyboard
+    ptint("test")
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     item1 = types.KeyboardButton("🎲 Рандомное число")
     item2 = types.KeyboardButton("😊 Как дела?")
