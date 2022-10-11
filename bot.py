@@ -1,80 +1,97 @@
-# url = 'https://api.api-ninjas.com/v1/quotes?category='
-# category = ['age',
-#     'alone',
-#     'amazing',
-#     'anger',
-#     'architecture',
-#     'art',
-#     'attitude',
-#     'beauty',
-#     'best',
-#     'birthday',
-#     'business',
-#     'car',
-#     'change',
-#     'communications',
-#     'computers',
-#     'cool',
-#     'courage',
-#     'dad',
-#     'dating',
-#     'death',
-#     'design',
-#     'dreams',
-#     'education',
-#     'environmental',
-#     'equality',
-#     'experience',
-#     'failure',
-#     'faith',
-#     'family',
-#     'famous',
-#     'fear',
-#     'fitness',
-#     'food',
-#     'forgiveness',
-#     'freedom',
-#     'friendship',
-#     'funny',
-#     'future',
-#     'god',
-#     'good',
-#     'government',
-#     'graduation',
-#     'great',
-#     'happiness',
-#     'health',
-#     'history',
-#     'home',
-#     'hope',
-#     'humor',
-#     'imagination',
-#     'inspirational',
-#     'intelligence',
-#     'jealousy',
-#     'knowledge',
-#     'leadership',
-#     'learning',
-#     'legal',
-#     'life',
-#     'love',
-#     'marriage',
-#     'medical',
-#     'men',
-#     'mom',
-#     'money',
-#     'morning',
-#     'movies',
-#     'success',
-# ]
+# url = 'https://api.api-ninjas.com/v1/quotes?category=amazing'
+
 
 import telebot
 import config
 import random
  
 from telebot import types
+# Importing the PIL library
+from PIL import Image
+from PIL import ImageDraw
+from PIL import ImageFont
+import requests
+
+def get_img(img_name):
+    img_url = "https://random.imagecdn.app/500/150"
+    img = requests.get(img_url).content
+    with open(img_name , 'wb') as handler :
+        handler.write(img)
+
  
 bot = telebot.TeleBot(config.token)
+
+category = [
+    'alone',
+    'amazing',
+    'art',
+    'attitude',
+    'beauty',
+    'birthday',
+    'business',
+    'car',
+    'change',
+    'communications',
+    'design',
+    'dreams',
+    'education',
+    'environmental',
+    'equality',
+    'funny',
+    'good',
+    'government',
+    'graduation',
+    'great',
+    'happiness',
+    'health',
+    'history',
+    'home',
+    'hope',
+    'humor',
+    'learning',
+    'legal',
+    'life',
+    'love',
+    'marriage',
+    'medical',
+    'money',
+    'morning',
+    'movies',
+    'success',
+]
+ 
+def get_image_whits_text(category_q):
+    get_img('img.jpg')
+    category = category_q
+    api_url = 'https://api.api-ninjas.com/v1/quotes?category={}'.format(category)
+    response = requests.get(api_url, headers={'X-Api-Key': '6MJhoJV2dUNo1n9+iU8zKg==zeePk0oeyQoceKv5'})
+    r = response.json()[0]
+    text = r['quote']
+    text_l = len(text)
+    text1 = ''
+    text2 = ''
+    test = True
+    for i in range(text_l):
+        if i >=(text_l/2) and text[i]== " " and test==True:
+            test = False
+        elif test == False:
+            text2+=text[i]
+        else:
+            text1+=text[i]
+    print('text1 ==> ' , text1)
+    print('text2 ==> ' , text2)
+
+    # Open an Image
+    img = Image.open('img.jpg')
+    
+    I1 = ImageDraw.Draw(img)
+
+    myFont = ImageFont.truetype('fonts/Cabin/Cabin-VariableFont_wdth,wght.ttf', 20)
+    
+    # Add Text to an image
+    I1.text((10, 400), text1 , font=myFont, fill=(255, 255, 255))
+    I1.text((10, 430), text2 , font=myFont, fill=(255, 255, 255))
+    return img
  
 @bot.message_handler(commands=['start'])
 def welcome(message):
@@ -83,24 +100,38 @@ def welcome(message):
  
     # keyboard
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    item1 = types.KeyboardButton("🎲 Рандомное число")
-    item2 = types.KeyboardButton("😊 Как дела?")
+    item1 = types.KeyboardButton("🎲 Random Quotes")
+    item2 = types.KeyboardButton("😊 All Category")
  
     markup.add(item1, item2)
  
-    bot.send_message(message.chat.id, "Добро пожаловать, {0.first_name}!\nЯ - <b>{1.first_name}</b>, бот созданный чтобы быть подопытным кроликом.".format(message.from_user, bot.get_me()),
+    bot.send_message(message.chat.id, "Welcome , {0.first_name}!\nI'm  - <b>{1.first_name}</b>, I generate for you Quotes with picture.".format(message.from_user, bot.get_me()),
         parse_mode='html', reply_markup=markup)
  
 @bot.message_handler(content_types=['text'])
 def lalala(message):
     if message.chat.type == 'private':
-        if message.text == '🎲 Рандомное число':
+        if message.text == '🎲 Random Quotes':
+
             bot.send_message(message.chat.id, str(random.randint(0,100)))
-        elif message.text == '😊 Как дела?':
+        elif message.text == '😊 All Category':
  
             markup = types.InlineKeyboardMarkup(row_width=2)
-            item1 = types.InlineKeyboardButton("Хорошо", callback_data='good')
-            item2 = types.InlineKeyboardButton("Не очень", callback_data='bad')
+            item1 = types.InlineKeyboardButton("Alone", callback_data='alone')
+            item2 = types.InlineKeyboardButton("Amazing", callback_data='amazing')
+            item3 = types.InlineKeyboardButton("Не очень", callback_data='bad')
+            item4 = types.InlineKeyboardButton("Не очень", callback_data='bad')
+            item5 = types.InlineKeyboardButton("Не очень", callback_data='bad')
+            item6 = types.InlineKeyboardButton("Не очень", callback_data='bad')
+            item7 = types.InlineKeyboardButton("Не очень", callback_data='bad')
+            item8 = types.InlineKeyboardButton("Не очень", callback_data='bad')
+            item9 = types.InlineKeyboardButton("Не очень", callback_data='bad')
+            item10 = types.InlineKeyboardButton("Не очень", callback_data='bad')
+            item11 = types.InlineKeyboardButton("Не очень", callback_data='bad')
+            item12 = types.InlineKeyboardButton("Не очень", callback_data='bad')
+            item13 = types.InlineKeyboardButton("Не очень", callback_data='bad')
+            item14 = types.InlineKeyboardButton("Не очень", callback_data='bad')
+            item15 = types.InlineKeyboardButton("Не очень", callback_data='bad')
  
             markup.add(item1, item2)
  
@@ -112,8 +143,11 @@ def lalala(message):
 def callback_inline(call):
     try:
         if call.message:
-            if call.data == 'good':
-                bot.send_message(call.message.chat.id, 'Вот и отличненько 😊')
+            if call.data == 'alone':
+                bot.send_chat_action(message.chat.id, 'upload_photo')
+                bot.send_photo(message.chat.id, get_image_whits_text('alone'), reply_to_message_id=message.chat.id)
+
+                # bot.send_message(call.message.chat.id, 'Вот и отличненько 😊')
             elif call.data == 'bad':
                 bot.send_message(call.message.chat.id, 'Бывает 😢')
  
