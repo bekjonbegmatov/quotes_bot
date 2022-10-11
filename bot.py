@@ -91,7 +91,7 @@ def get_image_whits_text(category_q):
     # Add Text to an image
     I1.text((10, 400), text1 , font=myFont, fill=(255, 255, 255))
     I1.text((10, 430), text2 , font=myFont, fill=(255, 255, 255))
-    return img
+    img.save("img.png")
  
 @bot.message_handler(commands=['start'])
 def welcome(message):
@@ -133,7 +133,7 @@ def lalala(message):
             item14 = types.InlineKeyboardButton("Не очень", callback_data='bad')
             item15 = types.InlineKeyboardButton("Не очень", callback_data='bad')
  
-            markup.add(item1, item2)
+            markup.add(item1, item2 , item3 , item4)
  
             bot.send_message(message.chat.id, 'Отлично, сам как?', reply_markup=markup)
         else:
@@ -144,8 +144,10 @@ def callback_inline(call):
     try:
         if call.message:
             if call.data == 'alone':
+                get_image_whits_text('alone')
+                # img = 
                 bot.send_chat_action(message.chat.id, 'upload_photo')
-                bot.send_photo(message.chat.id, get_image_whits_text('alone'), reply_to_message_id=message.chat.id)
+                bot.send_photo(message.chat.id, photo=open('img.png', 'rb') , reply_to_message_id=message.chat.id)
 
                 # bot.send_message(call.message.chat.id, 'Вот и отличненько 😊')
             elif call.data == 'bad':
