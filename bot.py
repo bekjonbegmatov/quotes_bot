@@ -188,7 +188,7 @@ def callback_inline(call):
                 I1.text((10, 430), text2 , font=myFont, fill=(255, 255, 255))
 
                 # img.save("img.png")
-                bot.send_photo(message.chat.id, img, reply_to_message_id=message.chat.id)
+                bot.send_photo(call.message.chat.id, img, reply_to_message_id=message.chat.id)
 
                 # bot.send_message(call.message.chat.id, 'Бывает 😢')
  
