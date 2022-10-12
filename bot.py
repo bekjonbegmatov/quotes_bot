@@ -93,8 +93,8 @@ def get_image_whits_text(category_q):
     I1.text((10, 400), text1 , font=myFont, fill=(255, 255, 255))
     I1.text((10, 430), text2 , font=myFont, fill=(255, 255, 255))
 
-    img.save("img.png")
-    return img
+    img.save("./static/img/img.jpg")
+    # return img
  
 @bot.message_handler(commands=['start'])
 def welcome(message):
@@ -150,7 +150,7 @@ def callback_inline(call):
                 get_image_whits_text('alone')
                 # img = 
                 bot.send_chat_action(call.message.chat.id, 'upload_photo')
-                bot.send_photo(call.message.chat.id, photo=open('img.png', 'rb') , reply_to_message_id=call.message.chat.id)
+                bot.send_photo(call.message.chat.id, photo=open('./static/img/img.jpg', 'rb') , reply_to_message_id=call.message.chat.id)
                 print()
                 # print(call.message.chat.id , get_image_whits_text('alone') )
 
