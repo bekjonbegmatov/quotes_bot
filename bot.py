@@ -17,6 +17,7 @@ def get_img(img_name):
     img = requests.get(img_url).content
     with open(img_name , 'wb') as handler :
         handler.write(img)
+    return img
 
  
 bot = telebot.TeleBot(config.token)
@@ -61,7 +62,7 @@ category = [
 ]
  
 def get_image_whits_text(category_q):
-    get_img('img.jpg')
+    
     category = category_q
     api_url = 'https://api.api-ninjas.com/v1/quotes?category={}'.format(category)
     response = requests.get(api_url, headers={'X-Api-Key': '6MJhoJV2dUNo1n9+iU8zKg==zeePk0oeyQoceKv5'})
@@ -82,7 +83,7 @@ def get_image_whits_text(category_q):
     print('text2 ==> ' , text2)
 
     # Open an Image
-    img = Image.open('img.jpg')
+    img = get_img('img.jpg')
     
     I1 = ImageDraw.Draw(img)
 
