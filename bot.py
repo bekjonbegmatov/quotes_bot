@@ -181,7 +181,7 @@ def callback_inline(call):
                 print('text2 ==> ' , text2)
 
                 # Open an Image
-                img = Image.open('img.jpg')
+                # img = img
                 
                 I1 = ImageDraw.Draw(img)
 
@@ -192,7 +192,8 @@ def callback_inline(call):
                 I1.text((10, 430), text2 , font=myFont, fill=(255, 255, 255))
 
                 # img.save("img.png")
-                bot.send_photo(call.message.chat.id, img, reply_to_message_id=message.chat.id)
+                bot.send_chat_action(call.message.chat.id, 'upload_photo')
+                bot.send_photo(call.message.chat.id, img, reply_to_message_id=call.message.chat.id)
 
                 # bot.send_message(call.message.chat.id, 'Бывает 😢')
  
