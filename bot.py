@@ -148,14 +148,49 @@ def callback_inline(call):
             if call.data == 'alone':
                 get_image_whits_text('alone')
                 # img = 
-                bot.send_chat_action(message.chat.id, 'upload_photo')
-                bot.send_photo(message.chat.id, photo=open('img.png', 'rb') , reply_to_message_id=message.chat.id)
+                # bot.send_chat_action(message.chat.id, 'upload_photo')
+                # bot.send_photo(message.chat.id, photo=open('img.png', 'rb') , reply_to_message_id=message.chat.id)
                 bot.send_chat_action(message.chat.id, 'upload_photo')
                 bot.send_photo(message.chat.id, get_image_whits_text('alone'), reply_to_message_id=message.chat.id)
 
                 # bot.send_message(call.message.chat.id, 'Вот и отличненько 😊')
-            elif call.data == 'bad':
-                bot.send_message(call.message.chat.id, 'Бывает 😢')
+            elif call.data == 'amazing':
+                img_url = "https://random.imagecdn.app/500/150"
+                img = requests.get(img_url).content
+                category = 'amazing'
+                api_url = 'https://api.api-ninjas.com/v1/quotes?category={}'.format(category)
+                response = requests.get(api_url, headers={'X-Api-Key': '6MJhoJV2dUNo1n9+iU8zKg==zeePk0oeyQoceKv5'})
+                r = response.json()[0]
+                text = r['quote']
+                text_l = len(text)
+                text1 = ''
+                text2 = ''
+                test = True
+                for i in range(text_l):
+                    if i >=(text_l/2) and text[i]== " " and test==True:
+                        test = False
+                    elif test == False:
+                        text2+=text[i]
+                    else:
+                        text1+=text[i]
+                print('text1 ==> ' , text1)
+                print('text2 ==> ' , text2)
+
+                # Open an Image
+                img = Image.open('img.jpg')
+                
+                I1 = ImageDraw.Draw(img)
+
+                myFont = ImageFont.truetype('fonts/Cabin/Cabin-VariableFont_wdth,wght.ttf', 20)
+                
+                # Add Text to an image
+                I1.text((10, 400), text1 , font=myFont, fill=(255, 255, 255))
+                I1.text((10, 430), text2 , font=myFont, fill=(255, 255, 255))
+
+                # img.save("img.png")
+                bot.send_photo(message.chat.id, img, reply_to_message_id=message.chat.id)
+
+                # bot.send_message(call.message.chat.id, 'Бывает 😢')
  
             # remove inline buttons
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="😊 Как дела?",
