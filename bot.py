@@ -91,7 +91,9 @@ def get_image_whits_text(category_q):
     # Add Text to an image
     I1.text((10, 400), text1 , font=myFont, fill=(255, 255, 255))
     I1.text((10, 430), text2 , font=myFont, fill=(255, 255, 255))
+
     img.save("img.png")
+    return img
  
 @bot.message_handler(commands=['start'])
 def welcome(message):
@@ -148,6 +150,8 @@ def callback_inline(call):
                 # img = 
                 bot.send_chat_action(message.chat.id, 'upload_photo')
                 bot.send_photo(message.chat.id, photo=open('img.png', 'rb') , reply_to_message_id=message.chat.id)
+                bot.send_chat_action(message.chat.id, 'upload_photo')
+                bot.send_photo(message.chat.id, get_image_whits_text('alone'), reply_to_message_id=message.chat.id)
 
                 # bot.send_message(call.message.chat.id, 'Вот и отличненько 😊')
             elif call.data == 'bad':
