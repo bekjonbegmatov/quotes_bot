@@ -151,9 +151,9 @@ def callback_inline(call):
                 # bot.send_chat_action(message.chat.id, 'upload_photo')
                 # bot.send_photo(message.chat.id, photo=open('img.png', 'rb') , reply_to_message_id=message.chat.id)
                 print(call)
-                print(call.message)
-                # bot.send_chat_action(call.message.chat.id, 'upload_photo')
-                # bot.send_photo(call.message.chat.id, get_image_whits_text('alone'), reply_to_message_id=message.chat.id)
+                # print(call.message.chat.id , get_image_whits_text('alone') )
+                bot.send_chat_action(call.message.chat.id, 'upload_photo')
+                bot.send_photo(call.message.chat.id, get_image_whits_text('alone'), reply_to_message_id=call.message.chat.id)
 
                 # bot.send_message(call.message.chat.id, 'Вот и отличненько 😊')
             elif call.data == 'amazing':
