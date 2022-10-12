@@ -193,7 +193,7 @@ def callback_inline(call):
 
                 # img.save("img.png")
                 bot.send_chat_action(call.message.chat.id, 'upload_photo')
-                bot.send_photo(call.message.chat.id, img, reply_to_message_id=call.message.chat.id)
+                bot.send_photo(call.message.chat.id, I1, reply_to_message_id=call.message.chat.id)
 
                 # bot.send_message(call.message.chat.id, 'Бывает 😢')
  
