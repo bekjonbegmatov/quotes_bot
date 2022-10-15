@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO)
  
 # from bot import category as bot_categoriy_list
 
-bot = Bot(token=config.testbot_tocen)
+bot = Bot(token=config.token)
 dp = Dispatcher(bot)
 bot_categoriy_list = [
     'alone',
