@@ -115,7 +115,8 @@ async def help_command(message: types.Message):
 @dp.message_handler()
 async def echo(message: types.Message):
     if message.text == 'MENU🏠':
-        await message.reply("Hello " + message.chat.first_name + "OK" , reply_markup=hello)
+        await message.reply("OK" , reply_markup=hello)
+        return
     if message.text == 'Random Quotes 🎲':
         category = bot_categoriy_list[round(random.uniform(0 , len(bot_categoriy_list)))]
         random_image()
