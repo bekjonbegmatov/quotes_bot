@@ -60,7 +60,46 @@ category = [
     'movies',
     'success',
 ]
- 
+def random_image():
+    img_url = "https://random.imagecdn.app/500/500"
+    img = requests.get(img_url).content
+    with open('img.png' , 'wb') as handler :
+        handler.write(img)
+def draw(categor):
+    img = Image.open('img.png')
+    category = categor
+    api_url = 'https://api.api-ninjas.com/v1/quotes?category={}'.format(category)
+    response = requests.get(api_url, headers={'X-Api-Key': '6MJhoJV2dUNo1n9+iU8zKg==zeePk0oeyQoceKv5'})
+    r = response.json()[0]
+    text = r['quote']
+    text_l = len(text)
+    text1 = ''
+    text2 = ''
+    test = True
+    for i in range(text_l):
+        if i >=(text_l/2) and text[i]== " " and test==True:
+            test = False
+        elif test == False:
+            text2+=text[i]
+        else:
+            text1+=text[i]
+    print('text1 ==> ' , text1)
+    print('text2 ==> ' , text2)
+
+    # Open an Image
+    # img = img
+    
+    I1 = ImageDraw.Draw(img)
+
+    myFont = ImageFont.truetype('fonts/Cabin/Cabin-VariableFont_wdth,wght.ttf', 20)
+    
+    # Add Text to an image
+    I1.text((10, 400), text1 , font=myFont, fill=(255, 255, 255))
+    I1.text((10, 430), text2 , font=myFont, fill=(255, 255, 255))
+
+    img.save('img.jpg')
+    return img
+
 def get_image_whits_text(category_q):
     
     category = category_q
@@ -122,7 +161,7 @@ def lalala(message):
             markup = types.InlineKeyboardMarkup(row_width=2)
             item1 = types.InlineKeyboardButton("Alone", callback_data='alone')
             item2 = types.InlineKeyboardButton("Amazing", callback_data='amazing')
-            item3 = types.InlineKeyboardButton("Не очень", callback_data='bad')
+            item3 = types.InlineKeyboardButton("Beauty", callback_data='beauty')
             item4 = types.InlineKeyboardButton("Не очень", callback_data='bad')
             item5 = types.InlineKeyboardButton("Не очень", callback_data='bad')
             item6 = types.InlineKeyboardButton("Не очень", callback_data='bad')
@@ -159,44 +198,12 @@ def callback_inline(call):
 
                 # bot.send_message(call.message.chat.id, 'Вот и отличненько 😊')
             elif call.data == 'amazing':
-                img_url = "https://random.imagecdn.app/500/150"
-                img = requests.get(img_url).content
+                random_image()
                 category = 'amazing'
-                api_url = 'https://api.api-ninjas.com/v1/quotes?category={}'.format(category)
-                response = requests.get(api_url, headers={'X-Api-Key': '6MJhoJV2dUNo1n9+iU8zKg==zeePk0oeyQoceKv5'})
-                r = response.json()[0]
-                text = r['quote']
-                text_l = len(text)
-                text1 = ''
-                text2 = ''
-                test = True
-                for i in range(text_l):
-                    if i >=(text_l/2) and text[i]== " " and test==True:
-                        test = False
-                    elif test == False:
-                        text2+=text[i]
-                    else:
-                        text1+=text[i]
-                print('text1 ==> ' , text1)
-                print('text2 ==> ' , text2)
-
-                # Open an Image
-                # img = img
-                
-                I1 = ImageDraw.Draw(img)
-
-                myFont = ImageFont.truetype('fonts/Cabin/Cabin-VariableFont_wdth,wght.ttf', 20)
-                
-                # Add Text to an image
-                I1.text((10, 400), text1 , font=myFont, fill=(255, 255, 255))
-                I1.text((10, 430), text2 , font=myFont, fill=(255, 255, 255))
-
-                # img.save("img.png")
+                photo = draw(category)
                 bot.send_chat_action(call.message.chat.id, 'upload_photo')
-                bot.send_photo(call.message.chat.id, I1, reply_to_message_id=call.message.chat.id)
+                bot.send_photo(call.message.chat.id, photo=open('img.jpg', 'rb') , reply_to_message_id=call.message.chat.id)
 
-                # bot.send_message(call.message.chat.id, 'Бывает 😢')
- 
             # remove inline buttons
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="😊 Как дела?",
                 reply_markup=None)
