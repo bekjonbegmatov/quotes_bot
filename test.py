@@ -91,6 +91,7 @@ def draw(cate):
     return img
 
 markup3 = ReplyKeyboardMarkup()
+markup3.add(KeyboardButton("MENU🏠"))
 for i in bot_categoriy_list:
     markup3.add(KeyboardButton(i.upper()))
 
@@ -113,6 +114,8 @@ async def help_command(message: types.Message):
     await message.reply("Choose one from the category !" , reply_markup=markup3)
 @dp.message_handler()
 async def echo(message: types.Message):
+    if message.text == 'MENU🏠':
+        await message.reply("Hello " + message.chat.first_name + "OK" , reply_markup=hello)
     if message.text == 'Random Quotes 🎲':
         category = bot_categoriy_list[round(random.uniform(0 , len(bot_categoriy_list)))]
         random_image()
